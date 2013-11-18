@@ -5,49 +5,50 @@ module.exports = function(grunt) {
 	var path = require('path'),
 		_ = grunt.util._;
 
-	// Project configuration.
+	/*
+	Config
+	----------------------------------------*/
 	grunt.initConfig({
 
 		pkg: grunt.file.readJSON('package.json'),
 
-		/* rigt now this is useless... */
-		meta: {
-			banner: ''
-		},
 
-		/**
-		 * Project Paths Configuration
-		 * ===============================
-		 */
+		/*
+		Project Paths
+		----------------------------------------*/
 		paths: {
 			//images folder name
 			images: 'images',
+
 			//where to store built files
 			dist: 'dist<%= grunt.template.today("yyyymmdd") %>',
+
 			//sources
 			src: 'src',
+
 			//main email file
 			email: 'email.html',
+
 			//enter here yout production domain
 			distDomain: 'http://www.mydomain.com/',
+
 			//this is the default development domain
 			devDomain: 'http://localhost:8000/'
 		},
 
 
-		/**
-		 * Cleanup Tasks (used internally)
-		 * ===============================
-		 */
+		/*
+		Clean Up
+		----------------------------------------*/
 		clean: {
 			dist: ['<%= paths.dist %>']
 		},
 
 
-		/**
-		 * Copy gif files Tasks (used internally)
-		 * ===============================
-		 */
+		/*
+		Copy .gif files
+		Used internally
+		----------------------------------------*/
 		copy: {
 			gif: {
 				files: [{
@@ -60,19 +61,21 @@ module.exports = function(grunt) {
 		},
 
 
-
-		/**
-		 * SCSS Compilation Tasks
-		 * ===============================
-		 */
+		/*
+		Scss Compiling
+		----------------------------------------*/
 		compass: {
 
 			dev: {
 				options: {
-					//set the parent folder of scss files
+					
+					//Set the parent folder of scss files
 					basePath : '<%= paths.src %>',
-					//accepts some compass command line option
-					//see https://github.com/gruntjs/grunt-contrib-compass
+
+					/*
+					Accepts some compass command line option
+					SEE: https://github.com/gruntjs/grunt-contrib-compass
+					*/
 					config: path.normalize(__dirname + '/vendor/compass-config.rb')
 				}
 			},
@@ -83,16 +86,15 @@ module.exports = function(grunt) {
 					force: true,
 					environment: 'production',
 					config: path.normalize(__dirname + '/vendor/compass-config.rb'),
-					sassDir: '../<%= paths.src %>/scss'
+					sassDir: '../<%= paths.src %>/css/scss'
 				}
 			}
 		},
 
 
-		/**
-		 * Static EJS Render Task
-		 * ===============================
-		 */
+		/*
+		EJS Template Rendering
+		----------------------------------------*/
 		render: {
 			options: {
 				data: 'data/data.json',
@@ -107,23 +109,37 @@ module.exports = function(grunt) {
 			}
 		},
 
-		/**
-		 * Environment Related Task
-		 * ===============================
-		 */
+
+		/*
+		Environment related tasks
+		----------------------------------------*/
 		devcode: {
+
 			options: {
-				html: true, // html files parsing?
-				js: false, // javascript files parsing?
-				css: false, // css files parsing?
-				clean: true, // removes devcode comments even if code was not removed
+
+				// Parse HTML files?
+				html: true,
+
+				// Parse JS files?
+				js: false,
+
+				// Parse CSS files?
+				css: false,
+
+				// Remove devcode comments even if code was not removed
+				clean: true, 
+
 				block: {
 					open: 'devcode', // with this string we open a block of code
 					close: 'endcode' // with this string we close a block of code
 				},
-				dest: 'dev' // default destination which overwrittes environment variable
+
+				// Default destination which overwrittes environment variable
+				dest: 'dev'
 			},
-			dev: { // settings for task used with 'devcode:dev'
+
+			// Settings for task used with 'devcode:dev'
+			dev: {
 				options: {
 					source: '<%= paths.src %>/',
 					dest: '<%= paths.src %>/',
@@ -133,7 +149,9 @@ module.exports = function(grunt) {
 					}
 				}
 			},
-			dist: { // settings for task used with 'devcode:dist'
+
+			// Settings for task used with 'devcode:dist'
+			dist: {
 				options: {
 					source: '<%= paths.dist %>/',
 					dest: '<%= paths.dist %>/',
@@ -142,15 +160,14 @@ module.exports = function(grunt) {
 			}
 		},
 
-		/**
-		 * Premailer Parser Tasks
-		 * ===============================
-		 */
+		/*
+		Environment related tasks
+		----------------------------------------*/
 		premailer: {
 
 			dist_html: {
 				options: {
-					//see https://github.com/dwightjack/grunt-premailer#options
+					// SEE: https://github.com/dwightjack/grunt-premailer#options
 					baseUrl: '<%= paths.distDomain %>'
 				},
 				files: {
@@ -192,10 +209,9 @@ module.exports = function(grunt) {
 
 
 
-		/**
-		 * Images Optimization Tasks
-		 * ===============================
-		 */
+		/*
+		Image Optimisation
+		----------------------------------------*/
 		imagemin: {
 
 			dist: {
@@ -212,10 +228,9 @@ module.exports = function(grunt) {
 		},
 
 
-		/**
-		 * Test Mailer Tasks
-		 * ===============================
-		 */
+		/*
+		Nodemailer (Send test emails)
+		----------------------------------------*/
 		nodemailer: {
 
 			options: {
@@ -225,26 +240,31 @@ module.exports = function(grunt) {
 				 * Here follows a Gmail SMTP example transport
 				 * @see https://github.com/andris9/Nodemailer
 				 */
-				/*transport: {
+				transport: {
 					type: 'SMTP',
 					options: {
 						service: 'Gmail',
 						auth: {
-							user: 'john.doe@gmail.com',
+							user: 'email.dev@evolution7.com.au',
 							pass: 'password'
 						}
 					}
-				},*/
+				},
 
-				from: '<John Doe> john.doe@gmail.com',
+				from: '<Email Dev> EDM Dev',
 
-				// HTML and TXT email
-				// A collection of recipients
+				// Define recipients for NodeMailer
 				recipients: [
 					{
-						email: 'jane.doe@gmail.com',
-						name: 'Jane Doe'
+						email: 	'email.dev@evolution7.com.au',
+						name: 	'EDM Dev'
+					},
+					/*
+					{
+						email: 	test@litmus.com,
+						name: 	'Litmus Test'
 					}
+					*/
 				]
 			},
 
@@ -259,13 +279,12 @@ module.exports = function(grunt) {
 		},
 
 
-		/**
-		 * Watch Task (used internally)
-		 * ===============================
-		 */
+		/*
+		Watching
+		----------------------------------------*/
 		watch: {
 			compass: {
-				files: ['src/scss/**/*.scss'],
+				files: ['src/css/scss/**/*.scss'],
 				tasks: ['compass:dev']
 			},
 			html: {
@@ -274,10 +293,9 @@ module.exports = function(grunt) {
 			}
 		},
 
-		/**
-		 * Server Tasks (used internally)
-		 * ===============================
-		 */
+		/*
+		Server tasks (Internal)
+		----------------------------------------*/
 		connect: {
 
 			options: {
@@ -295,7 +313,6 @@ module.exports = function(grunt) {
 			send: {
 				options: {
 					base: '<%= paths.src %>',
-					//keep the server on
 					keepalive: true
 				}
 			},
@@ -303,7 +320,6 @@ module.exports = function(grunt) {
 			dist: {
 				options: {
 					base: '<%= paths.dist %>',
-					//keep the server on
 					keepalive: true
 				}
 			}
@@ -312,6 +328,10 @@ module.exports = function(grunt) {
 
 	});
 
+
+	/*
+	Environment related tasks
+	----------------------------------------*/
 	[
 		'grunt-contrib-connect',
 		'grunt-contrib-watch',
@@ -326,6 +346,10 @@ module.exports = function(grunt) {
 
 	grunt.loadTasks( path.normalize(__dirname + '/vendor/tasks') );
 
+
+	/*
+	Register Tasks
+	----------------------------------------*/
 	grunt.registerTask('default', 'dev');
 
 	grunt.registerTask('dev', [
