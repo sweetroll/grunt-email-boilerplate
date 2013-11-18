@@ -168,7 +168,9 @@ module.exports = function(grunt) {
 			dist_html: {
 				options: {
 					// SEE: https://github.com/dwightjack/grunt-premailer#options
-					baseUrl: '<%= paths.distDomain %>'
+					baseUrl: 		'<%= paths.distDomain %>',
+					css: 			'<%= paths.dist %>/css/style.css',
+					removeClasses: 	true,
 				},
 				files: {
 					'<%= paths.dist %>/<%= paths.email %>': ['<%= paths.dist %>/<%= paths.email %>']
@@ -177,8 +179,8 @@ module.exports = function(grunt) {
 			},
 			dist_txt: {
 				options: {
-					baseUrl: '<%= paths.distDomain %>',
-					mode: 'txt'
+					baseUrl: 	'<%= paths.distDomain %>',
+					mode: 		'txt'
 				},
 				files: {
 					'<%= paths.dist %>/<% print(paths.email.replace(/\.html$/, ".txt")); %>': ['<%= paths.dist %>/<%= paths.email %>']
@@ -197,8 +199,8 @@ module.exports = function(grunt) {
 			},
 			dev_txt: {
 				options: {
-					baseUrl: '<%= paths.devDomain %>',
-					mode: 'txt'
+					baseUrl: 	'<%= paths.devDomain %>',
+					mode: 		'txt'
 				},
 				files: {
 					// overwrite source file
