@@ -247,8 +247,8 @@ module.exports = function(grunt) {
 					options: {
 						service: 'Gmail',
 						auth: {
-							user: 'email.dev@evolution7.com.au',
-							pass: 'password'
+							user: 'bcc@evolution7.com.au',
+							pass: 'evo721334'
 						}
 					}
 				},
@@ -258,7 +258,7 @@ module.exports = function(grunt) {
 				// Define recipients for NodeMailer
 				recipients: [
 					{
-						email: 	'email.dev@evolution7.com.au',
+						email: 	'bcc@evolution7.com.au',
 						name: 	'EDM Dev'
 					},
 					/*
